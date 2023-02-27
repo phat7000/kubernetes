@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: example
+spec:
+  limits:
+    - type: Pod
+      min:
+        cpu: 50m
+        memory: 5Mi
+      max:
+        cpu: 1
+        memory: 1Gi
+    - type: Container
+      defaultRequest:
+        cpu: 100m
+        memory: 10Mi
+      default:
+        cpu: 200m
+        memory: 100Mi
+      min:
+        cpu: 50m
+        memory: 5Mi
+      max:
+        cpu: 1
+        memory: 1Gi
+      maxLimitRequestRatio:
+        cpu: 4
+        memory: 10
+    - type: PersistentVolumeClaim
+      min:
+        storage: 1Gi
+      max:
+        storage: 10Gi
+        #Ở file config trên, ta chỉ định limit cho 3 thành phần là Pod, Container, PersistentVolumeClaim. Ta chỉ định minimun cpu của Pod là 50m và memory là 5Mi, maximun là 1 cpu và 1Gi memory. Đối với container, ta chỉ định giá trị mặc định của của request bằng thuộc tính defaultRequest và mặc định của limit bằng thuộc tính default, và thuộc tính max và min tương tự như của Pod. Ta cũng có thể chỉ định giá trị cho storage với type là PersistentVolumeClaim.
+        
